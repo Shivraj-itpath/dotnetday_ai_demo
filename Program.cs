@@ -48,6 +48,6 @@ while (true)
     var response = await chatClient.GetResponseAsync(chatHistory);
     Console.WriteLine(response.Text);
 
-    chatHistory.Add(new ChatMessage(ChatRole.Assistant, chatResponse));
+    chatHistory.Add(new ChatMessage(ChatRole.Assistant, response.Text));
     Console.WriteLine();
 }
