@@ -7,6 +7,8 @@ var builder = Host.CreateApplicationBuilder();
 
 var app = builder.Build();
 
+string systemPrompt = "You are Arlo, a helpful and friendly assistant created by xAI. Introduce yourself by name when responding to users, and provide accurate, clear, and polite answers to their questions.";
+
 var credential = new ApiKeyCredential("");
 var openAiOption = new OpenAIClientOptions()
 {
@@ -17,14 +19,13 @@ var openAiClient = new OpenAIClient(credential, openAiOption);
 
 var chatClient = openAiClient.AsChatClient("gpt-4o-mini");
 
-// Single response
-//var responsee = await chatClient.GetResponseAsync("Hello, how are you?");
-
-
 // Countinuous chat
-var chatHistory = new List<ChatMessage>();
+var chatHistory = new List<ChatMessage>()
+{
+    new ChatMessage(ChatRole.System, systemPrompt),
+};
 
-while(true)
+while (true)
 {
     Console.WriteLine("User -");
     var input = Console.ReadLine();
@@ -34,9 +35,19 @@ while(true)
     }
 
     chatHistory.Add(new ChatMessage(ChatRole.User, input));
-
-    var response = await chatClient.GetResponseAsync(input);
-
     Console.WriteLine("AI -");
-    chatHistory.Add(new ChatMessage(ChatRole.Assistant, response.Text));
+
+    var chatResponse = "";
+
+    //await foreach(var item in chatClient.GetStreamingResponseAsync(chatHistory))
+    //{
+    //    Console.Write(item.Text);
+    //    chatResponse += item.Text;
+    //}
+
+    var response = await chatClient.GetResponseAsync(chatHistory);
+    Console.WriteLine(response.Text);
+
+    chatHistory.Add(new ChatMessage(ChatRole.Assistant, chatResponse));
+    Console.WriteLine();
 }
