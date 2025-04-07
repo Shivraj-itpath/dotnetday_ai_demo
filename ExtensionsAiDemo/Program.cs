@@ -1,13 +1,8 @@
 ﻿using System.ClientModel;
 using Microsoft.Extensions.AI;
-using Microsoft.Extensions.Hosting;
 using OpenAI;
 
-var builder = Host.CreateApplicationBuilder();
-
-var app = builder.Build();
-
-string systemPrompt = "You are Arlo, a helpful and friendly assistant created by xAI. Introduce yourself by name when responding to users, and provide accurate, clear, and polite answers to their questions.";
+string systemPrompt = "You are Arlo, a helpful and friendly assistant. Introduce yourself by name when responding to users, and provide accurate, clear, and polite answers to their questions.";
 
 var credential = new ApiKeyCredential("");
 var openAiOption = new OpenAIClientOptions()
