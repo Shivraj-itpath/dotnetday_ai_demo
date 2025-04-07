@@ -34,6 +34,7 @@ while (true)
 
     var chatResponse = "";
 
+    // get streaming response
     //await foreach(var item in chatClient.GetStreamingResponseAsync(chatHistory))
     //{
     //    Console.Write(item.Text);
