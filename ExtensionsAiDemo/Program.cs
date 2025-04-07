@@ -32,18 +32,21 @@ while (true)
     chatHistory.Add(new ChatMessage(ChatRole.User, input));
     Console.WriteLine("AI -");
 
-    var chatResponse = "";
+    // get non-streaming response
+    var response = await chatClient.GetResponseAsync(chatHistory);
+    Console.WriteLine(response.Text);
+
+    chatHistory.Add(new ChatMessage(ChatRole.Assistant, response.Text));
+    Console.WriteLine();
 
     // get streaming response
+    //var chatResponse = "";
     //await foreach(var item in chatClient.GetStreamingResponseAsync(chatHistory))
     //{
     //    Console.Write(item.Text);
     //    chatResponse += item.Text;
     //}
 
-    var response = await chatClient.GetResponseAsync(chatHistory);
-    Console.WriteLine(response.Text);
-
-    chatHistory.Add(new ChatMessage(ChatRole.Assistant, response.Text));
-    Console.WriteLine();
+    //chatHistory.Add(new ChatMessage(ChatRole.Assistant, chatResponse));
+    //Console.WriteLine();
 }
